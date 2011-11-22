@@ -1,0 +1,9 @@
+{
+  "name": "esritogeojson",
+  "version": "0.0.1",
+  "dependencies": {
+        "express"; "2.5.1",
+        "jade": "0.18.0",
+        "stylus": "0.19.3"
+    }
+}

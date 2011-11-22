@@ -1,0 +1,11 @@
+h1=title
+
+form( method='post', action='/parse/' )
+    div
+        label EsriJSON
+        textarea(name='inJson', value=jsonIn)=jsonIn
+    div
+        label GeoJSON
+        textarea= jsonOut
+    div
+        input(type='submit', value='go')

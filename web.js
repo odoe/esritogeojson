@@ -34,7 +34,7 @@ app.get('/', function(req, res){
         });
 });
 
-app.post('/parse/', function(req, res) {
+app.post('/', function(req, res) {
     console.log("request from post");//, req.body.inJson);
     jsonInput = req.body.inJson.toString();
     deserialize(jsonInput, function(errors, jsonOut){

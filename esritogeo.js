@@ -33,12 +33,12 @@ var parseGeometryType = function(type) {
     }
 };
 
-var featureToGeo = function(feature, geomType) {
+var featureToGeo = function(feature_in, geomType) {
     var geometry = {};
     geometry.type = geomType;
     
     // grab the rings to coordinates
-    var geom = feature.geometry;
+    var geom = feature_in.geometry;
     
     var coordinates;
     if (geomType === "Polygon") {
@@ -53,16 +53,17 @@ var featureToGeo = function(feature, geomType) {
     
     // convert attributes to properties
     var properties = {};
-    var attr = feature.attributes;
+    var attr = feature_in.attributes;
     for (var field in attr) {
         properties[field] = attr[field];
     }
     
-    var geoJS = {};
-    geoJS.geometry = geometry;
-    geoJS.properties = properties;
+    var feature_out = {};
+    feature_out.type = "Feature";
+    feature_out.geometry = geometry;
+    feature_out.properties = properties;
     
-    return geoJS;
+    return feature_out;
 };
 
 var deserialize = function(js, callback) {

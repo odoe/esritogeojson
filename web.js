@@ -8,14 +8,6 @@ app.configure(function(){
     app.set('view engine', 'jade');
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    /*
-    app.use(require('stylus').middleware({
-        debug: true,
-        src: __dirname + '/views',
-        dest: __dirname + '/public',
-        compile: compileMethod
-    }));
-    */
     app.use(require('stylus').middleware({ 
         debug: true,
         src: __dirname + '/public',
@@ -47,6 +39,14 @@ app.get('/', function(req, res){
             title: 'EsriJSON to GeoJSON (experimental)',
             locals: { jsonIn: test, jsonOut: "This will be GeoJSON" }
         });
+});
+
+app.get('/parse/:json', function(req, res){
+    var js = req.params.json;
+    deserialize(js, function(errors, jsonOut){
+        console.log("json parsed for request");
+        res.send(jsonOut);
+    });
 });
 
 app.post('/', function(req, res) {

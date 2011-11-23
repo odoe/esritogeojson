@@ -41,24 +41,23 @@ app.configure('production', function(){
 
 var test = '{"displayFieldName":"LOWPARCELID","fieldAliases":{"LOWPARCELID":"Lowest Parcel Identification Number"},"geometryType":"esriGeometryPolygon","spatialReference":{"wkid":4326},"fields":[{"name":"LOWPARCELID","type":"esriFieldTypeString","alias":"Lowest Parcel Identification Number","length":30}],"features":[{"attributes":{"LOWPARCELID":"1902226080"},"geometry":{"rings":[[[-83.231458627236648,42.617199350582993],[-83.231635236861806,42.617378536183793],[-83.231669512792919,42.617422957559519],[-83.231193468607543,42.617678900083554],[-83.230976370344521,42.617458631003402],[-83.231458627236648,42.617199350582993]]]}}]}';
 
-var jsonInput = test;
-var jsonOutput = "this will be GeoJSON";
-
 app.get('/', function(req, res){
     console.log('start of app');
     res.render('index', {
             title: 'EsriJSON to GeoJSON (experimental)',
-            locals: { jsonIn: jsonInput, jsonOut: jsonOutput }
+            locals: { jsonIn: test, jsonOut: "This will be GeoJSON" }
         });
 });
 
 app.post('/', function(req, res) {
     console.log("request from post");//, req.body.inJson);
-    jsonInput = req.body.inJson.toString();
+    var jsonInput = req.body.inJson.toString();
     deserialize(jsonInput, function(errors, jsonOut){
-        jsonOutput = jsonOut;
         console.log("json parsed");
-        res.redirect('/');
+        res.render('index', {
+            title: 'EsriJSON to GeoJSON (experimental)',
+            locals: { jsonIn: jsonInput, jsonOut: jsonOut }
+        });
     });
 });
 

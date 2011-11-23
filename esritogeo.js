@@ -1,21 +1,12 @@
+var stripJSON = function(str) {
+    return str.replace(/\\n/g, "\\n")
+              .replace(/\\t/g, "\\t");
+};
+
 var jsonToObject = function(stringIn) {
-    console.log("Error: parse with JSON.parse()");
-    
-    /*
-    var data = JSON.parse(stringIn, function(key, value) {
-        var type;
-        if (value && typeof value === 'object') {
-            type = value.type;
-            if (typeof type === 'string' && typeof window[type] === 'function') {
-                return new (window[type])(value);
-            }
-        }
-        return value;
-    });
-    */
     var data;
     try {
-        data = JSON.parse(stringIn);
+        data = JSON.parse(stripJSON(stringIn));
         console.log("json converted to object");
     } catch(err) {
         data = null;
@@ -48,12 +39,16 @@ var featureToGeo = function(feature, geomType) {
     
     // grab the rings to coordinates
     var geom = feature.geometry;
-    var coordinates = {};
-    if (geom.rings !== "undefined") {
+    
+    var coordinates;
+    if (geomType === "Polygon") {
         coordinates = geom.rings;
-    } else if (geom.paths !== "undefined") {
+    } else if (geomType === "LineString") {
         coordinates = geom.paths;
+    } else if (geomType === "Point") {
+        coordinates = [geom.x, geom.y];
     }
+    
     geometry.coordinates = coordinates;
     
     // convert attributes to properties

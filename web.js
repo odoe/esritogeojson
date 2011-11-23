@@ -8,10 +8,28 @@ app.configure(function(){
     app.set('view engine', 'jade');
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(require('stylus').middleware({ src: __dirname + 'public' }));
+    /*
+    app.use(require('stylus').middleware({
+        debug: true,
+        src: __dirname + '/views',
+        dest: __dirname + '/public',
+        compile: compileMethod
+    }));
+    */
+    app.use(require('stylus').middleware({ 
+        debug: true,
+        src: __dirname + '/public',
+        dest: __dirname + '/public',
+        compile: compileMethod
+    }));
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
+
+var compileMethod = function (str) {
+  return require('stylus')(str)
+    .set('compress', true);
+};
 
 app.configure('development', function(){
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));    
@@ -29,7 +47,7 @@ var jsonOutput = "this will be GeoJSON";
 app.get('/', function(req, res){
     console.log('start of app');
     res.render('index', {
-            title: 'EsriJSON to GeoJSON (experimental): Only works on Polygons for now',
+            title: 'EsriJSON to GeoJSON (experimental)',
             locals: { jsonIn: jsonInput, jsonOut: jsonOutput }
         });
 });

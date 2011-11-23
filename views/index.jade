@@ -5,7 +5,7 @@ form( method='post', action='/' )
         label EsriJSON
         textarea(name='inJson', value=jsonIn)=jsonIn
     div
+        input(type='submit', value='convert')
+    div
         label GeoJSON
         textarea= jsonOut
-    div
-        input(type='submit', value='go')
